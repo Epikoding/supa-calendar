@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import { BRAND_LABEL } from '@/lib/config'
+import { BRAND_LABEL, GUEST_EMAIL } from '@/lib/config'
 import { normalizeHexColor } from '@/lib/colors'
 import { fetchRoles } from '@/lib/queries/masterData'
 import type { ProjectRole } from '@/lib/types/role'
@@ -745,9 +745,14 @@ function AccountTab() {
     }
   }
 
+  const isGuest = email === GUEST_EMAIL
+
   return (
     <div className="p-4 max-w-md">
       <p className="text-sm text-gray-500 mb-4">{email}</p>
+      {isGuest ? (
+        <p className="text-sm text-gray-400">데모 계정은 비밀번호를 변경할 수 없습니다.</p>
+      ) : (
       <form onSubmit={handleChangePassword} className="space-y-3">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">현재 비밀번호</label>
@@ -772,6 +777,7 @@ function AccountTab() {
           {loading ? '변경 중...' : '비밀번호 변경'}
         </button>
       </form>
+      )}
     </div>
   )
 }
