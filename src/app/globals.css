@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fcfcfd;
+  --foreground: #1f2937;
+  --color-primary: var(--env-primary, #09338F);
+  --color-primary-light: color-mix(in srgb, var(--color-primary), white 30%);
+  --color-primary-lighter: color-mix(in srgb, var(--color-primary), white 55%);
+  --color-primary-003: color-mix(in srgb, var(--color-primary), transparent 97%);
+  --color-primary-005: color-mix(in srgb, var(--color-primary), transparent 95%);
+  --color-primary-006: color-mix(in srgb, var(--color-primary), transparent 94%);
+  --color-primary-008: color-mix(in srgb, var(--color-primary), transparent 92%);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  overscroll-behavior-x: none;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, var(--color-primary-005) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 85% 15%, color-mix(in srgb, var(--color-primary-light), transparent 96%) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 80%, color-mix(in srgb, var(--color-primary-lighter), transparent 97%) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 60% at 90% 70%, color-mix(in srgb, var(--color-primary-lighter), transparent 97%) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 30% 60%, color-mix(in srgb, var(--color-primary), transparent 97.5%) 0%, transparent 45%);
+  background-color: #fcfcfd;
+}
+
+/* 프로젝트 행 선택 하이라이트 (useRowSelection DOM classList) */
+.row-selected,
+.row-selected:hover {
+  background-color: var(--color-primary-006) !important;
+  border-left: 2px solid var(--color-primary) !important;
+  padding-left: 8px !important;
+}
+
+/* 셀 선택 하이라이트 */
+.cell-selected {
+  background-color: var(--color-primary-008) !important;
+}
+
+/* 잘라내기 대상 셀 (점선 테두리 + 반투명) */
+.cell-cut {
+  border: 2px dashed var(--color-primary) !important;
+  opacity: 0.6;
+}
+
+/* 선택된 컬럼 헤더 하이라이트 */
+.header-col-selected {
+  background-color: var(--color-primary-008) !important;
+  color: var(--color-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* 워크로드: 드래그 앤 드랍 */
+.workload-drag-over {
+  background-color: var(--color-primary-008) !important;
+  outline: 2px dashed var(--color-primary);
+  outline-offset: -2px;
+}
+.workload-draggable {
+  cursor: grab;
+}
+.workload-draggable:active {
+  cursor: grabbing;
+  opacity: 0.5;
+}
+
+/* 워크로드: 커스텀 툴팁 (100ms 딜레이) */
+.workload-tooltip-wrap {
+  position: relative;
+}
+.workload-tooltip-wrap::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 1000;
+  max-width: 320px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #1f2937;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  transition-delay: 0s;
+}
+.workload-tooltip-wrap:hover::after {
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+/* 호버된 카드가 속한 행을 다음 행보다 위에 배치 */
+[data-row-mid]:has(.workload-tooltip-wrap:hover) {
+  position: relative;
+  z-index: 1;
+}
+
+/* 슬랙 링크 파싱 중 shimmer 효과 */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 간트 차트: 좌측 라벨 스크롤바 숨김 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

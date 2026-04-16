@@ -1,0 +1,7 @@
+name,name_short,role,slack_id,email,active
+김수진,수진,PM,,sujin@example.com,true
+박민호,민호,시니어 디자이너,,minho@example.com,true
+이하은,하은,주니어 디자이너,,haeun@example.com,true
+최준서,준서,주니어 디자이너,,junseo@example.com,true
+정유나,유나,대표,,yuna@example.com,true
+한도윤,도윤,개발자,,doyun@example.com,true

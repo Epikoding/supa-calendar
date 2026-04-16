@@ -1,0 +1,5 @@
+keyword,color,is_regex,show_header_dot,sort_order
+출고,#f97316,false,true,1
+촬영,#3b82f6,false,true,2
+공유,#8b5cf6,false,true,3
+미팅,#10b981,false,true,4
