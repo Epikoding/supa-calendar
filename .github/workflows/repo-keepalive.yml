@@ -1,0 +1,33 @@
+name: Repo Keepalive (monthly)
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"        # 매월 1일 00:00 UTC = 09:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  touch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Append timestamp to log
+        run: |
+          mkdir -p .github
+          ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "- $ts" >> .github/keepalive-log.md
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/keepalive-log.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: repo keepalive touch"
+          git push
